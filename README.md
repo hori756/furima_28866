@@ -32,7 +32,7 @@
 | postage_payer_id | integer    | null: false                   |
 | prefectures_id   | integer    | null: false                   |
 | shipping_days_id | integer    | null: false                   |
-| price            | string     | null: false                   |
+| price            | integer    | null: false                   |
 
 ### Association
 
@@ -56,12 +56,13 @@
 
 - belongs_to :item
 - belongs_to :user
-
+- has_one :destination
 ## destinations テーブル
 
 | Column           | Type       | Options                       |
 | ---------------- | ---------- | ----------------------------- |
 | user             | references | null: false foreign_key: true |
+| purchases        | references | null: false foreign_key: true |
 | post_code        | string     | null: false                   |
 | prefecture_id    | integer    | null: false                   |
 | city             | string     | null: false                   |
@@ -72,6 +73,7 @@
 ### Association
 
 - has_one :user
+- belongs_to :purchase
 - belongs_to_active_hash :prefecture
 
 ## images テーブル
