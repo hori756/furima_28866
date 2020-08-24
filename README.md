@@ -16,8 +16,8 @@
 
 ### Association
 
-- has_many :items
-- has_one :cards
+- has_many :item
+- has_many :purchase
 - has_one :destinations
 
 ## items テーブル
@@ -36,23 +36,26 @@
 
 ### Association
 
-- has_many :items
-- has_many :images
+- has_many :image
+- has_many :purchase
+- belongs_to :user
 - belongs_to_active_hash :category
 - belongs_to_active_hash :status
 - belongs_to_active_hash :postage_payer
 - belongs_to_active_hash :prefecture
 - belongs_to_active_hash :shipping_day
 
-## cards テーブル
+## purchases テーブル
 
 | Column           | Type       | Options                       |
 | ---------------- | ---------- | ----------------------------- |
+| item             | references | null: false foreign_key: true |
 | user             | references | null: false foreign_key: true |
-| card_id          | string     | null: false                   |
-| customer_id      | string     | null: false                   |
 
-- belongs_to :users
+### Association
+
+- belongs_to :item
+- belongs_to :user
 
 ## destinations テーブル
 
@@ -68,7 +71,7 @@
 
 ### Association
 
-- has_one :users
+- has_one :user
 - belongs_to_active_hash :prefecture
 
 ## images テーブル
@@ -76,8 +79,8 @@
 | Column           | Type       | Options                         |
 | ---------------- | ---------- | ------------------------------- |
 | image            | string     | null: false                     |
-| name             | references | null: false foreign_key: true   |
+| item             | references | null: false foreign_key: true   |
 
 ### Association
 
-- belongs_to :items
+- belongs_to :item
