@@ -18,7 +18,6 @@
 
 - has_many :items
 - has_many :purchases
-- has_many :destinations
 
 ## items テーブル
 
@@ -37,7 +36,7 @@
 ### Association
 
 - has_many :images
-- has_many :purchases
+- has_one :purchase
 - belongs_to :user
 - belongs_to_active_hash :category
 - belongs_to_active_hash :status
@@ -57,12 +56,12 @@
 - belongs_to :item
 - belongs_to :user
 - has_one :destination
+
 ## destinations テーブル
 
 | Column           | Type       | Options                       |
 | ---------------- | ---------- | ----------------------------- |
-| user             | references | null: false foreign_key: true |
-| purchases        | references | null: false foreign_key: true |
+| purchase        | references | null: false foreign_key: true |
 | post_code        | string     | null: false                   |
 | prefecture_id    | integer    | null: false                   |
 | city             | string     | null: false                   |
@@ -72,7 +71,6 @@
 
 ### Association
 
-- has_one :user
 - belongs_to :purchase
 - belongs_to_active_hash :prefecture
 
