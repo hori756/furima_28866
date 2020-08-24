@@ -16,9 +16,9 @@
 
 ### Association
 
-- has_many :item
-- has_many :purchase
-- has_one :destinations
+- has_many :items
+- has_many :purchases
+- has_one :destination
 
 ## items テーブル
 
@@ -36,8 +36,8 @@
 
 ### Association
 
-- has_many :image
-- has_many :purchase
+- has_many :images
+- has_many :purchases
 - belongs_to :user
 - belongs_to_active_hash :category
 - belongs_to_active_hash :status
