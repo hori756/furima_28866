@@ -18,7 +18,7 @@
 
 - has_many :items
 - has_many :purchases
-- has_one :destination
+- has_many :destinations
 
 ## items テーブル
 
