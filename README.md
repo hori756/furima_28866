@@ -1,24 +1,86 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# テーブル設計
 
-Things you may want to cover:
+## users テーブル
 
-* Ruby version
+| Column           | Type   | Options                  |
+| ---------------- | ------ | ------------------------ |
+| nickname         | string | null: false              |
+| email            | string | null: false unique: true |
+| family_name      | string | null: false              |
+| first_name       | string | null: false              |
+| family_name_kana | string | null: false              |
+| first_name_kana  | string | null: false              |
+| birth_date       | date   | null: false              |
 
-* System dependencies
+### Association
 
-* Configuration
+- has_many :items
+- has_many :purchases
 
-* Database creation
+## items テーブル
 
-* Database initialization
+| Column           | Type       | Options                       |
+| ---------------- | ---------- | ----------------------------- |
+| user             | references | null: false foreign_key: true |
+| name             | string     | null: false                   |
+| description      | text       | null: false                   |
+| category_id      | integer    | null: false                   |
+| status_id        | integer    | null: false                   |
+| postage_payer_id | integer    | null: false                   |
+| prefectures_id   | integer    | null: false                   |
+| shipping_days_id | integer    | null: false                   |
+| price            | integer    | null: false                   |
 
-* How to run the test suite
+### Association
 
-* Services (job queues, cache servers, search engines, etc.)
+- has_many :images
+- has_one :purchase
+- belongs_to :user
+- belongs_to_active_hash :category
+- belongs_to_active_hash :status
+- belongs_to_active_hash :postage_payer
+- belongs_to_active_hash :prefecture
+- belongs_to_active_hash :shipping_day
 
-* Deployment instructions
+## purchases テーブル
 
-* ...
+| Column           | Type       | Options                       |
+| ---------------- | ---------- | ----------------------------- |
+| item             | references | null: false foreign_key: true |
+| user             | references | null: false foreign_key: true |
+
+### Association
+
+- belongs_to :item
+- belongs_to :user
+- has_one :destination
+
+## destinations テーブル
+
+| Column           | Type       | Options                       |
+| ---------------- | ---------- | ----------------------------- |
+| purchase        | references | null: false foreign_key: true |
+| post_code        | string     | null: false                   |
+| prefecture_id    | integer    | null: false                   |
+| city             | string     | null: false                   |
+| address          | string     | null: false                   |
+| build_name       | string     |                               |
+| phone_number     | string     | null: false                   |
+
+### Association
+
+- belongs_to :purchase
+- belongs_to_active_hash :prefecture
+
+## images テーブル
+
+| Column           | Type       | Options                         |
+| ---------------- | ---------- | ------------------------------- |
+| image            | string     | null: false                     |
+| item             | references | null: false foreign_key: true   |
+
+### Association
+
+- belongs_to :item
