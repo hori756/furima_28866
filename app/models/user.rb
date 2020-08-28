@@ -3,19 +3,22 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
-  validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
-  validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i }, length: { minimum: 6 }
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  VALID_PASSWORD = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
+  VALID_FULL_LETTERS = /\A(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+\z/
+  VALID_KATAKANA = /\A[ァ-ヶー－]+\z/
+  validates :email, format: { with: VALID_EMAIL }, uniqueness: { case_sensitive: false }
+  validates :password, format: { with: VALID_PASSWORD }, length: { minimum: 6 }
   with_options presence: true do
     validates :nickname
     validates :birth_date
 
-    with_options format: { with: /\A(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+\z/ } do
+    with_options format: { with: VALID_FULL_LETTERS } do
       validates :first_name
       validates :family_name
     end
 
-    with_options format: { with: /\A[ァ-ヶー－]+\z/ } do
+    with_options format: { with: VALID_KATAKANA } do
       validates :first_name_kana
       validates :family_name_kana
     end
