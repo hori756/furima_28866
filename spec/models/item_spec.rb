@@ -4,7 +4,6 @@ RSpec.describe Item, type: :model do
   describe '商品を出品' do
     before do
       @item = FactoryBot.build(:item)
-      # @item.images << fixture_file_upload('public/images/test_image.png')
       @item.images.attach(io: File.open('public/images/test_image.png'), filename: 'test_image.png', content_type: 'image/png')
     end
     context '新規登録がうまくいくとき' do
@@ -64,7 +63,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
       it '販売価格の記述が半角数字でないと登録出来ない' do
-        @item.price = 'aaa'
+        @item.price = '１０００００'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
       end
