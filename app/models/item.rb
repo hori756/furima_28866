@@ -8,7 +8,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :prefecture
   belongs_to_active_hash :shipping_day
 
-  #空の投稿を保存できないようにする
+  # 空の投稿を保存できないようにする
   with_options presence: true do
     validates :name
     validates :description
@@ -20,9 +20,9 @@ class Item < ApplicationRecord
     validates :shipping_day
     validates :price
   end
-  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999}
-  #ジャンルの選択が「--」の時は保存できないようにする
-  with_options numericality: { other_than: 0 }  do
+  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
+  # ジャンルの選択が「--」の時は保存できないようにする
+  with_options numericality: { other_than: 0 } do
     validates :category_id
     validates :status_id
     validates :postage_payer_id
