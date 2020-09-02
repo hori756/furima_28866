@@ -3,10 +3,13 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  VALID_PASSWORD = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
-  VALID_FULL_LETTERS = /\A(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+\z/
-  VALID_KATAKANA = /\A[ァ-ヶー－]+\z/
+
+  has_many :items
+
+  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
+  VALID_PASSWORD = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i.freeze
+  VALID_FULL_LETTERS = /\A(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+\z/.freeze
+  VALID_KATAKANA = /\A[ァ-ヶー－]+\z/.freeze
   validates :email, format: { with: VALID_EMAIL }, uniqueness: { case_sensitive: false }
   validates :password, format: { with: VALID_PASSWORD }, length: { minimum: 6 }
   with_options presence: true do
