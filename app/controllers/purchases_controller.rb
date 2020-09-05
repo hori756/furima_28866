@@ -3,13 +3,9 @@ class PurchasesController < ApplicationController
   def index
     @item = Item.find(params[:item_id])
     # 出品者は出品した商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
-    if current_user.id == @item.user_id
-      redirect_to root_path
-    end
+    redirect_to root_path if current_user.id == @item.user_id
     # 購入済み商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
-    if @item.purchase.present?
-      redirect_to root_path
-    end
+    redirect_to root_path if @item.purchase.present?
     @purchase = PurchaseDestination.new
   end
 
@@ -19,7 +15,7 @@ class PurchasesController < ApplicationController
     if @purchase.valid?
       pay_item
       @purchase.save
-      return redirect_to root_path(@item.user_id)
+      redirect_to root_path(@item.user_id)
     else
       render :index
     end
@@ -28,26 +24,26 @@ class PurchasesController < ApplicationController
   private
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
-      amount: @item.price,  # 商品の値段
-      card: purchase_params[:token],    # カードトークン
-      currency:'jpy'                 # 通貨の種類(日本円)
+      amount: @item.price, # 商品の値段
+      card: purchase_params[:token], # カードトークン
+      currency: 'jpy'                 # 通貨の種類(日本円)
     )
   end
 
   def purchase_params
     params.permit(
-            :item_id,
-            :purchase_id,
-            :token,
-            :post_code,
-            :prefecture_id,
-            :city,
-            :address,
-            :build_name,
-            :phone_number,
-          )
+      :item_id,
+      :purchase_id,
+      :token,
+      :post_code,
+      :prefecture_id,
+      :city,
+      :address,
+      :build_name,
+      :phone_number
+    )
           .merge(user_id: current_user.id)
   end
 end
