@@ -28,7 +28,7 @@ class PurchasesController < ApplicationController
   private
 
   def pay_item
-    Payjp.api_key = "sk_test_1d5eb400ef09731178f12296"  # PAY.JPテスト秘密鍵
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,  # 商品の値段
       card: purchase_params[:token],    # カードトークン
