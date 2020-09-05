@@ -1,6 +1,15 @@
 class PurchasesController < ApplicationController
+  before_action :authenticate_user!, only: [:index]
   def index
     @item = Item.find(params[:item_id])
+    # 出品者は出品した商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
+    if current_user.id == @item.user_id
+      redirect_to root_path
+    end
+    # 購入済み商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
+    if @item.purchase.present?
+      redirect_to root_path
+    end
     @purchase = PurchaseDestination.new
   end
 
