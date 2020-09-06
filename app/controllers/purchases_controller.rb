@@ -1,7 +1,7 @@
 class PurchasesController < ApplicationController
   before_action :authenticate_user!, only: [:index]
+  before_action :set_item, only: [:index, :create]
   def index
-    @item = Item.find(params[:item_id])
     # 出品者は出品した商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
     redirect_to root_path if current_user.id == @item.user_id
     # 購入済み商品の購入画面のURLへ遷移しようとするとトップページへ遷移する
@@ -10,7 +10,6 @@ class PurchasesController < ApplicationController
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase = PurchaseDestination.new(purchase_params)
     if @purchase.valid?
       pay_item
@@ -45,5 +44,9 @@ class PurchasesController < ApplicationController
       :phone_number
     )
           .merge(user_id: current_user.id)
+  end
+
+  def set_item
+    @item = Item.find(params[:item_id])
   end
 end
