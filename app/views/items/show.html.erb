@@ -10,13 +10,11 @@
       <% @item.images.first(1).each do |image| %>
         <%= image_tag (image),class: "item-img" %>
       <% end %>
-      <%# 商品が売れている場合は、sold outの表示をしましょう。 %>
           <%if @item.purchase.present? %>
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
           <% end %>
-      <%# //商品が売れている場合は、sold outの表示をしましょう。 %>
     </div>
     <div class="item-price-box">
       <span class="item-price">
@@ -33,11 +31,9 @@
       <p class='or-text'>or</p>
       <%= link_to '削除', item_path(@item), method: :delete, class:'item-destroy' %>
     <% elsif user_signed_in? %>
-      <%# 商品が売れていない場合はこちらを表示しましょう %>
       <% unless @item.purchase.present? %>
       <%= link_to '購入画面に進む', item_purchases_path(@item) ,class:"item-red-btn"%>
       <% end %>
-      <%# //商品が売れていない場合はこちらを表示しましょう %>
     <% end %>
 
     
