@@ -70,7 +70,7 @@
 | build_name       | string     |                               |
 | phone_number     | string     | null: false                   |
 
-### Association
+### Association 
 
 - belongs_to :purchase
 - belongs_to_active_hash :prefecture
